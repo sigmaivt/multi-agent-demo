@@ -43,4 +43,7 @@ def call_agent(system: str, user_message: str, model: str = FREE_MODEL) -> str:
         ],
         max_tokens=2048,
     )
-    return response.choices[0].message.content
+    actual_model = response.model or model
+    print(f"  [модель: {actual_model}]")
+    content = response.choices[0].message.content
+    return content or ""
