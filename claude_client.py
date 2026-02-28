@@ -11,7 +11,7 @@ client = OpenAI(
 )
 
 # OpenRouter сам выбирает лучшую доступную бесплатную модель
-FREE_MODEL = "openrouter/free"
+FREE_MODEL = "z-ai/glm-4.5-air:free"
 
 
 def call_agent(system: str, user_message: str, model: str = FREE_MODEL) -> str:
