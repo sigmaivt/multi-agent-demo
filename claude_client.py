@@ -4,6 +4,9 @@ OpenRouter совместим с форматом OpenAI API — просто м
 """
 import os
 from openai import OpenAI
+from dotenv import load_dotenv
+
+load_dotenv()  # загружает .env файл если он есть
 
 client = OpenAI(
     base_url="https://openrouter.ai/api/v1",
