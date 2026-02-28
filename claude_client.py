@@ -3,7 +3,7 @@
 OpenRouter совместим с форматом OpenAI API — просто меняем base_url.
 """
 import os
-from openai import OpenAI, NotFoundError
+from openai import OpenAI, APIStatusError
 
 client = OpenAI(
     base_url="https://openrouter.ai/api/v1",
@@ -18,6 +18,11 @@ FREE_MODELS = [
     "qwen/qwen-2.5-7b-instruct:free",
     "meta-llama/llama-3.2-3b-instruct:free",
     "meta-llama/llama-3.1-8b-instruct:free",
+    "deepseek/deepseek-chat:free",
+    "microsoft/phi-3-mini-128k-instruct:free",
+    "huggingfaceh4/zephyr-7b-beta:free",
+    "openchat/openchat-7b:free",
+    "nousresearch/nous-capybara-7b:free",
 ]
 
 FREE_MODEL = FREE_MODELS[0]  # модель по умолчанию
@@ -69,8 +74,8 @@ def call_agent(system: str, user_message: str, model: str = FREE_MODEL) -> str:
             if candidate != model:
                 print(f"  (переключился на резервную модель: {candidate})")
             return response.choices[0].message.content
-        except NotFoundError as e:
-            print(f"  Модель {candidate!r} недоступна, пробую следующую...")
+        except APIStatusError as e:
+            print(f"  Модель {candidate!r} недоступна (код {e.status_code}), пробую следующую...")
             last_error = e
 
     raise RuntimeError(
