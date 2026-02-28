@@ -54,9 +54,12 @@ def run_pipeline(topic: str) -> dict:
     if score < 7:
         print(f"  Оценка ниже порога (7). Оркестратор запускает доработку...\n")
         print("[2б] Писатель дорабатывает статью с учётом замечаний...")
-        article = writer.run(topic, research, feedback=feedback)
-        word_count = len(article.split())
-        print(f"  ✓ Статья доработана ({word_count} слов)\n")
+        revised = writer.run(topic, research, feedback=feedback)
+        if revised and revised.strip():
+            article = revised
+            print(f"  ✓ Статья доработана ({len(article.split())} слов)\n")
+        else:
+            print(f"  ⚠ Доработка вернула пустой ответ — оставляем первую версию статьи.\n")
     else:
         print(f"  Оценка выше порога. Доработка не нужна.\n")
 
