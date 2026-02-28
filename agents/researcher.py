@@ -16,15 +16,18 @@ SYSTEM_PROMPT = """Ты исследователь-аналитик. Твоя з
 - Отвечай ТОЛЬКО на русском языке, независимо от языка темы"""
 
 
-def run(topic: str) -> str:
+def run(topic: str, aspect: str = "") -> str:
     """
     Исследует тему и возвращает список тезисов.
 
     Args:
         topic: тема для исследования
+        aspect: необязательный фокус (например "факты", "примеры", "тренды").
+                Если задан — агент специализируется только на этом аспекте.
 
     Returns:
         Markdown-список ключевых тезисов.
     """
-    user_message = f"Тема для исследования: {topic}"
+    focus = f" Фокусируйся ТОЛЬКО на аспекте: {aspect}." if aspect else ""
+    user_message = f"Тема для исследования: {topic}.{focus}"
     return call_agent(SYSTEM_PROMPT, user_message)
